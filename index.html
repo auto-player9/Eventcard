@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>دعوة زفاف</title>
+<meta name="description" content="دعوة لحضور حفل زفاف">
+<meta property="og:image" content="images/close-up.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Amiri:wght@400;700&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fbf6f1; --paper:#fffdfa; --ink:#3a2c26; --muted:#8a776c;
+  --blush:#f2d4dc; --rose:#c97b8e; --gold:#b8945a; --gold-soft:#e7d6b5;
+  --shadow:0 18px 50px -20px rgba(80,50,40,.35);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:"Tajawal",sans-serif;line-height:1.8;overflow-x:hidden}
+body.locked{overflow:hidden}
+img{display:block;max-width:100%}
+.wrap{max-width:560px;margin:0 auto;padding:0 16px}
+
+/* ---------- Envelope intro ---------- */
+#intro{position:fixed;inset:0;z-index:50;display:grid;place-items:center;
+  background:linear-gradient(rgba(251,246,241,.55),rgba(251,246,241,.75)),url(images/bg-blur.jpg) center/cover;
+  transition:opacity 1s ease,visibility 1s}
+#intro.gone{opacity:0;visibility:hidden}
+.envelope{position:relative;width:min(84vw,360px);aspect-ratio:3/2;cursor:pointer;perspective:900px}
+.env-body{position:absolute;inset:0;background:#f6e3e7;border-radius:6px;box-shadow:var(--shadow);overflow:hidden}
+.env-body::before,.env-body::after{content:"";position:absolute;bottom:0;width:0;height:0;border-bottom:calc(min(84vw,360px)*.4) solid #f0d3da}
+.env-body::before{left:0;border-right:calc(min(84vw,360px)*.55) solid transparent}
+.env-body::after{right:0;border-left:calc(min(84vw,360px)*.55) solid transparent}
+.env-flap{position:absolute;top:0;left:0;right:0;height:62%;transform-origin:top;transition:transform .9s ease;z-index:3;
+  clip-path:polygon(0 0,100% 0,50% 100%);background:#ecc9d2}
+.envelope.open .env-flap{transform:rotateX(180deg);z-index:1}
+.seal{position:absolute;left:50%;top:62%;transform:translate(-50%,-50%);z-index:4;width:64px;height:64px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#d8b878,#9c773e);display:grid;place-items:center;color:#fff8e8;
+  font-family:"Aref Ruqaa",serif;font-size:26px;box-shadow:0 4px 12px rgba(0,0,0,.25);transition:opacity .4s}
+.envelope.open .seal{opacity:0}
+.tap{position:absolute;bottom:-56px;width:100%;text-align:center;color:var(--muted);font-size:15px;animation:pulse 1.8s infinite}
+@keyframes pulse{50%{opacity:.4}}
+
+/* ---------- Sections ---------- */
+section{padding:56px 0;text-align:center}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity 1s ease,transform 1s ease}
+.reveal.in{opacity:1;transform:none}
+.orn{width:120px;height:20px;margin:18px auto;color:var(--gold)}
+h2{font-family:"Aref Ruqaa",serif;font-weight:400;color:var(--rose);font-size:32px;margin-bottom:10px}
+.lead{color:var(--muted);font-size:16px}
+
+/* hero */
+.hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;justify-content:center;padding:0;
+  background:url(images/hero.jpg) center 30%/cover}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 40%,rgba(30,18,14,.75) 100%)}
+.hero-text{position:relative;z-index:1;color:#fff;padding:0 16px 64px}
+.hero-text .pre{letter-spacing:.06em;font-size:15px;opacity:.9}
+.hero-text h1{font-family:"Aref Ruqaa",serif;font-weight:400;font-size:clamp(44px,13vw,72px);line-height:1.25}
+.hero-text h1 span{color:var(--gold-soft);font-size:.6em;display:block}
+.scroll-hint{margin-top:14px;font-size:22px;animation:bob 2s infinite}
+@keyframes bob{50%{transform:translateY(6px)}}
+
+.verse{font-family:"Amiri",serif;font-size:21px;line-height:2.1;color:var(--ink)}
+.verse small{display:block;color:var(--muted);font-size:14px;margin-top:6px}
+
+.invite p{font-size:17px}
+.names{font-family:"Aref Ruqaa",serif;font-size:clamp(34px,10vw,48px);color:var(--ink);line-height:1.4;margin:14px 0}
+.names .amp{color:var(--gold);font-size:.7em;display:block}
+.family{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px;font-size:15px;color:var(--muted)}
+.family b{color:var(--ink);display:block;font-weight:500}
+
+/* framed photos */
+.arch{width:min(78vw,340px);margin:0 auto;border-radius:200px 200px 14px 14px;overflow:hidden;
+  border:6px solid var(--paper);outline:1px solid var(--gold-soft);box-shadow:var(--shadow)}
+.arch img{aspect-ratio:3/4;object-fit:cover;width:100%}
+.circle{width:min(64vw,260px);aspect-ratio:1;border-radius:50%;overflow:hidden;margin:0 auto;border:6px solid var(--paper);
+  outline:1px solid var(--gold);outline-offset:6px;box-shadow:var(--shadow)}
+.circle img{width:100%;height:100%;object-fit:cover}
+
+/* date */
+.date-card{background:var(--paper);border:1px solid var(--gold-soft);border-radius:18px;padding:28px 16px;box-shadow:var(--shadow)}
+.date-row{display:flex;align-items:center;justify-content:center;gap:16px;margin:10px 0}
+.date-row .side{font-size:16px;color:var(--muted);border-top:1px solid var(--gold-soft);border-bottom:1px solid var(--gold-soft);padding:4px 10px;min-width:84px}
+.date-row .day{font-family:"Amiri",serif;font-size:58px;color:var(--rose);line-height:1}
+.year{font-size:18px;letter-spacing:.3em;color:var(--gold)}
+.hijri{font-size:14px;color:var(--muted)}
+.countdown{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:22px}
+.countdown div{background:var(--blush);border-radius:12px;padding:10px 0}
+.countdown b{display:block;font-family:"Amiri",serif;font-size:28px;color:var(--ink);line-height:1.2}
+.countdown span{font-size:13px;color:var(--muted)}
+
+/* venue */
+.venue-card{background:var(--paper);border-radius:18px;overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--gold-soft)}
+.venue-card img{width:100%;aspect-ratio:16/10;object-fit:cover}
+.venue-card .body{padding:20px 16px 24px}
+.venue-card h3{font-family:"Amiri",serif;font-size:24px}
+.btns{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:16px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:999px;border:1px solid var(--gold);
+  color:var(--ink);text-decoration:none;font:inherit;font-size:15px;background:transparent;cursor:pointer;transition:.25s}
+.btn:hover,.btn.solid{background:var(--gold);color:#fff}
+.btn.solid:hover{background:#a07c44}
+.timeline{list-style:none;margin-top:18px;text-align:right;border-right:2px solid var(--gold-soft);padding-right:18px}
+.timeline li{position:relative;margin-bottom:10px}
+.timeline li::before{content:"";position:absolute;right:-25px;top:10px;width:12px;height:12px;border-radius:50%;background:var(--rose)}
+.timeline b{color:var(--rose);margin-left:8px}
+
+/* gallery */
+.gallery{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.gallery img{width:100%;height:100%;object-fit:cover;border-radius:12px;cursor:zoom-in;box-shadow:0 8px 24px -14px rgba(0,0,0,.4)}
+.gallery .tall{grid-row:span 2}
+.gallery .wide{grid-column:span 2;aspect-ratio:16/10}
+#lightbox{position:fixed;inset:0;background:rgba(20,12,10,.92);display:none;place-items:center;z-index:60;padding:16px}
+#lightbox.on{display:grid}
+#lightbox img{max-height:90vh;border-radius:8px}
+
+/* rsvp */
+form{display:grid;gap:12px;text-align:right;margin-top:18px}
+label{font-size:14px;color:var(--muted)}
+input,select,textarea{width:100%;font:inherit;padding:12px 14px;border-radius:12px;border:1px solid var(--gold-soft);background:var(--paper);color:var(--ink)}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--blush);border-color:var(--rose)}
+.choice{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.choice input{display:none}
+.choice label{border:1px solid var(--gold-soft);border-radius:12px;padding:12px;text-align:center;cursor:pointer;color:var(--ink);background:var(--paper)}
+.choice input:checked+label{background:var(--rose);color:#fff;border-color:var(--rose)}
+.thanks{display:none;padding:18px;background:var(--blush);border-radius:12px;margin-top:14px}
+
+footer{padding:40px 16px 90px;text-align:center;color:var(--muted);font-size:14px}
+footer .sig{font-family:"Aref Ruqaa",serif;font-size:28px;color:var(--rose)}
+
+/* music */
+#music{position:fixed;bottom:18px;left:18px;z-index:40;width:48px;height:48px;border-radius:50%;border:none;cursor:pointer;
+  background:var(--gold);color:#fff;font-size:20px;box-shadow:var(--shadow);display:none}
+#music.playing{animation:spin 4s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* falling petals */
+.petal{position:fixed;top:-20px;width:12px;height:12px;background:var(--blush);border-radius:12px 0;opacity:.8;pointer-events:none;z-index:30;
+  animation:fall linear forwards}
+@keyframes fall{to{transform:translate(var(--dx),110vh) rotate(540deg);opacity:0}}
+@media (prefers-reduced-motion:reduce){.petal{display:none}.reveal{opacity:1;transform:none}}
+</style>
+</head>
+<body class="locked">
+
+<!-- ============ ENVELOPE ============ -->
+<div id="intro">
+  <div class="envelope" id="envelope" role="button" tabindex="0" aria-label="افتح الدعوة">
+    <div class="env-body"></div>
+    <div class="env-flap"></div>
+    <div class="seal" id="sealLetters"></div>
+    <div class="tap">اضغط لفتح الدعوة</div>
+  </div>
+</div>
+
+<button id="music" aria-label="تشغيل / إيقاف الموسيقى">♫</button>
+<audio id="audio" loop preload="none"></audio>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="hero-text">
+    <div class="pre">بكل الحب ندعوكم لمشاركتنا فرحتنا</div>
+    <h1 id="heroNames"></h1>
+    <div class="pre" id="heroDate"></div>
+    <div class="scroll-hint">⌄</div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- verse -->
+  <section class="reveal">
+    <svg class="orn" viewBox="0 0 120 20" fill="none" stroke="currentColor"><path d="M0 10h44M76 10h44"/><path d="M60 2l8 8-8 8-8-8z"/><circle cx="60" cy="10" r="2" fill="currentColor"/></svg>
+    <p class="verse">﴿ وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً ﴾<small>سورة الروم – ٢١</small></p>
+    <svg class="orn" viewBox="0 0 120 20" fill="none" stroke="currentColor"><path d="M0 10h44M76 10h44"/><path d="M60 2l8 8-8 8-8-8z"/><circle cx="60" cy="10" r="2" fill="currentColor"/></svg>
+  </section>
+
+  <!-- invitation -->
+  <section class="invite reveal">
+    <div class="arch"><img src="images/portrait-bw.jpg" alt="صورة العروسين"></div>
+    <p style="margin-top:28px" id="inviteLine"></p>
+    <div class="names" id="bigNames"></div>
+    <p class="lead" id="inviteSub"></p>
+    <div class="family" id="families"></div>
+  </section>
+
+  <!-- date + countdown -->
+  <section class="reveal">
+    <h2>موعدنا</h2>
+    <div class="date-card">
+      <div class="date-row">
+        <div class="side" id="dWeekday"></div>
+        <div class="day" id="dDay"></div>
+        <div class="side" id="dMonth"></div>
+      </div>
+      <div class="year" id="dYear"></div>
+      <div class="hijri" id="dHijri"></div>
+      <div class="lead" id="dTime"></div>
+      <div class="countdown" id="countdown">
+        <div><b id="cD">0</b><span>يوم</span></div>
+        <div><b id="cH">0</b><span>ساعة</span></div>
+        <div><b id="cM">0</b><span>دقيقة</span></div>
+        <div><b id="cS">0</b><span>ثانية</span></div>
+      </div>
+      <div class="btns"><button class="btn" id="calBtn">📅 أضف إلى التقويم</button></div>
+    </div>
+  </section>
+
+  <!-- couple circle -->
+  <section class="reveal">
+    <div class="circle"><img src="images/close-up.jpg" alt="العروسان"></div>
+    <p class="verse" style="margin-top:28px;font-size:19px" id="quote"></p>
+  </section>
+
+  <!-- venue -->
+  <section class="reveal">
+    <h2>مكان الحفل</h2>
+    <div class="venue-card">
+      <img src="images/landmark.jpg" alt="مكان الحفل" style="object-position:center top">
+      <div class="body">
+        <h3 id="vName"></h3>
+        <p class="lead" id="vAddr"></p>
+        <ul class="timeline" id="program"></ul>
+        <div class="btns"><a class="btn solid" id="mapBtn" target="_blank" rel="noopener">📍 الموقع على الخريطة</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- gallery -->
+  <section class="reveal">
+    <h2>لحظاتنا</h2>
+    <div class="gallery">
+      <img class="tall" src="images/hero.jpg" alt="">
+      <img src="images/close-up.jpg" alt="" style="aspect-ratio:1">
+      <img src="images/portrait-bw.jpg" alt="" style="aspect-ratio:1;object-position:center 15%">
+      <img class="wide" src="images/vintage.jpg" alt="" style="object-position:center 55%">
+    </div>
+  </section>
+
+  <!-- rsvp -->
+  <section class="reveal">
+    <h2>تأكيد الحضور</h2>
+    <p class="lead" id="rsvpNote"></p>
+    <form id="rsvp">
+      <div><label for="gName">الاسم</label><input id="gName" required placeholder="اسمك الكريم"></div>
+      <div class="choice">
+        <input type="radio" name="att" id="yes" value="سأحضر بإذن الله" checked><label for="yes">سأحضر بإذن الله 🤍</label>
+        <input type="radio" name="att" id="no" value="أعتذر عن الحضور"><label for="no">أعتذر عن الحضور</label>
+      </div>
+      <div><label for="gCount">عدد الأشخاص</label>
+        <select id="gCount"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div>
+      <div><label for="gMsg">رسالة للعروسين (اختياري)</label><textarea id="gMsg" rows="3" placeholder="اكتب تهنئتك..."></textarea></div>
+      <button class="btn solid" type="submit" style="justify-content:center">إرسال عبر واتساب</button>
+    </form>
+    <div class="thanks" id="thanks">شكراً لك! بانتظاركم 🤍</div>
+  </section>
+</main>
+
+<footer>
+  <div class="sig" id="sig"></div>
+  <p>بانتظار تشريفكم لنا</p>
+</footer>
+
+<div id="lightbox"><img alt=""></div>
+
+<script>
+/* =====================================================
+   ✏️  عدّل معلوماتك هنا  —  EDIT YOUR DETAILS HERE
+   ===================================================== */
+const CONFIG = {
+  groom: "أحمد",
+  bride: "سارة",
+  groomFamily: "آل فلان",
+  brideFamily: "آل فلان",
+  groomParents: "السيد محمد والسيدة فاطمة",
+  brideParents: "السيد خالد والسيدة مريم",
+  date: "2026-12-24T19:00:00",          // تاريخ ووقت الحفل
+  hijri: "٤ رجب ١٤٤٨ هـ",
+  timeText: "الساعة السابعة مساءً",
+  venueName: "قاعة الأفراح الملكية",
+  venueAddress: "اسطنبول – تقسيم",
+  mapUrl: "https://maps.google.com/?q=Taksim+Square+Istanbul",
+  program: [
+    ["٧:٠٠ م", "استقبال الضيوف"],
+    ["٨:٠٠ م", "دخول العروسين"],
+    ["٩:٣٠ م", "العشاء"],
+  ],
+  quote: "وجدتُ فيكِ وطناً، وفي قلبكَ سكناً",
+  whatsapp: "905000000000",              // رقم الواتساب لاستقبال التأكيدات (بدون +)
+  rsvpBy: "نرجو تأكيد الحضور قبل ١٥ ديسمبر",
+  music: ""                              // ضع رابط ملف mp3 هنا مثل "music.mp3" (اختياري)
+};
+/* ===================================================== */
+
+const $ = id => document.getElementById(id);
+const C = CONFIG, when = new Date(C.date);
+const months = ["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];
+const days = ["الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"];
+const ar = n => String(n).replace(/\d/g, d => "٠١٢٣٤٥٦٧٨٩"[d]);
+
+$("sealLetters").textContent = C.groom[0] + C.bride[0];
+$("heroNames").innerHTML = `${C.groom}<span>&</span>${C.bride}`;
+$("heroDate").textContent = `${days[when.getDay()]} ${ar(when.getDate())} ${months[when.getMonth()]} ${ar(when.getFullYear())}`;
+$("inviteLine").textContent = "بسم الله الرحمن الرحيم، يتشرف";
+$("bigNames").innerHTML = `${C.groom}<span class="amp">&</span>${C.bride}`;
+$("inviteSub").textContent = "بدعوتكم لحضور حفل زفافهما، وبحضوركم تكتمل فرحتنا";
+$("families").innerHTML = `<div><b>أهل العريس</b>${C.groomParents}<br>${C.groomFamily}</div><div><b>أهل العروس</b>${C.brideParents}<br>${C.brideFamily}</div>`;
+$("dWeekday").textContent = days[when.getDay()];
+$("dDay").textContent = ar(when.getDate());
+$("dMonth").textContent = months[when.getMonth()];
+$("dYear").textContent = ar(when.getFullYear());
+$("dHijri").textContent = C.hijri;
+$("dTime").textContent = C.timeText;
+$("quote").textContent = `« ${C.quote} »`;
+$("vName").textContent = C.venueName;
+$("vAddr").textContent = C.venueAddress;
+$("mapBtn").href = C.mapUrl;
+$("program").innerHTML = C.program.map(([t, e]) => `<li><b>${t}</b>${e}</li>`).join("");
+$("rsvpNote").textContent = C.rsvpBy;
+$("sig").textContent = `${C.groom} & ${C.bride}`;
+document.title = `دعوة زفاف ${C.groom} & ${C.bride}`;
+
+/* countdown */
+function tick(){
+  let s = Math.max(0, (when - new Date()) / 1000);
+  $("cD").textContent = ar(Math.floor(s / 86400));
+  $("cH").textContent = ar(Math.floor(s % 86400 / 3600));
+  $("cM").textContent = ar(Math.floor(s % 3600 / 60));
+  $("cS").textContent = ar(Math.floor(s % 60));
+}
+tick(); setInterval(tick, 1000);
+
+/* add to calendar (.ics) */
+$("calBtn").onclick = () => {
+  const f = d => d.toISOString().replace(/[-:]|\.\d{3}/g, "");
+  const end = new Date(when.getTime() + 4 * 3600e3);
+  const ics = ["BEGIN:VCALENDAR","VERSION:2.0","BEGIN:VEVENT",`DTSTART:${f(when)}`,`DTEND:${f(end)}`,
+    `SUMMARY:زفاف ${C.groom} & ${C.bride}`,`LOCATION:${C.venueName} - ${C.venueAddress}`,"END:VEVENT","END:VCALENDAR"].join("\r\n");
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([ics], {type: "text/calendar"}));
+  a.download = "wedding.ics"; a.click();
+};
+
+/* envelope + music */
+const audio = $("audio"), mbtn = $("music");
+if (C.music) { audio.src = C.music; mbtn.style.display = "block"; }
+function openInvite(){
+  $("envelope").classList.add("open");
+  setTimeout(() => { $("intro").classList.add("gone"); document.body.classList.remove("locked"); petals(); }, 900);
+  if (C.music) audio.play().then(() => mbtn.classList.add("playing")).catch(() => {});
+}
+$("envelope").addEventListener("click", openInvite);
+$("envelope").addEventListener("keydown", e => (e.key === "Enter" || e.key === " ") && openInvite());
+mbtn.onclick = () => audio.paused ? audio.play().then(() => mbtn.classList.add("playing")) : (audio.pause(), mbtn.classList.remove("playing"));
+
+/* petals */
+function petals(){
+  for (let i = 0; i < 28; i++) setTimeout(() => {
+    const p = document.createElement("div"); p.className = "petal";
+    p.style.left = Math.random() * 100 + "vw";
+    p.style.setProperty("--dx", (Math.random() * 120 - 60) + "px");
+    p.style.animationDuration = 5 + Math.random() * 4 + "s";
+    document.body.appendChild(p); setTimeout(() => p.remove(), 10000);
+  }, i * 180);
+}
+
+/* scroll reveal */
+const io = new IntersectionObserver(es => es.forEach(e => e.isIntersecting && e.target.classList.add("in")), {threshold: .15});
+document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+
+/* lightbox */
+const lb = $("lightbox");
+document.querySelectorAll(".gallery img").forEach(img => img.onclick = () => { lb.querySelector("img").src = img.src; lb.classList.add("on"); });
+lb.onclick = () => lb.classList.remove("on");
+
+/* RSVP via WhatsApp */
+$("rsvp").onsubmit = e => {
+  e.preventDefault();
+  const att = document.querySelector('input[name=att]:checked').value;
+  const msg = `تأكيد حضور زفاف ${C.groom} & ${C.bride}\nالاسم: ${$("gName").value}\nالرد: ${att}\nالعدد: ${$("gCount").value}` + ($("gMsg").value ? `\nرسالة: ${$("gMsg").value}` : "");
+  window.open(`https://wa.me/${C.whatsapp}?text=${encodeURIComponent(msg)}`, "_blank");
+  $("thanks").style.display = "block";
+};
+</script>
+</body>
+</html>
