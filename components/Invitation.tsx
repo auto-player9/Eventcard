@@ -259,6 +259,11 @@ export default function Invitation({ guests, invite }: { guests: string[]; invit
         <footer className="foot">
           <div className="pic" style={{ backgroundImage: `url(${EVENT.footer})` }} />
           <div className="always" {...html("always")} />
+          <div className="powered">
+            <span>Powered by</span>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/syncly-logo.svg" alt="Syncly" width={93} height={22} />
+          </div>
         </footer>
       </main>
 

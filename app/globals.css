@@ -109,3 +109,9 @@ html[lang=en] .names{font-family:"Cormorant Garamond",serif;font-weight:500;font
 #music.paused svg{opacity:.55}
 @keyframes beat{0%,100%{transform:scale(1)}15%{transform:scale(1.12)}30%{transform:scale(1)}45%{transform:scale(1.08)}}
 @media (prefers-reduced-motion:reduce){.bgs div.on,#cover .ph{animation:none}.reveal{opacity:1;transform:none}}
+
+/* ---------- powered by ---------- */
+.always{padding-bottom:28px}
+.powered{display:flex;align-items:center;justify-content:center;gap:8px;padding:0 16px 40px;direction:ltr;
+  font-family:"Tajawal",sans-serif;font-size:14px;color:#555}
+.powered img{height:22px;width:auto}
