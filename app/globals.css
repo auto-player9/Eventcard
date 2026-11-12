@@ -39,13 +39,13 @@ html[lang=en] .lang{font-family:"Tajawal",sans-serif;font-size:18px}
 
 /* ---------- background stack ---------- */
 .bgs{position:fixed;inset:0;z-index:0}
-.bgs div{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity 1.1s ease;transform:scale(1.04)}
+.bgs div{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity .7s ease;transform:scale(1.04)}
 .bgs div.on{opacity:1;animation:kb 14s ease-in-out infinite alternate}
-.inv-main{position:relative;z-index:1}
-.spacer{height:100svh}
+.inv-main{position:relative;z-index:1;padding-top:75svh}
 
 /* ---------- cards ---------- */
-.panel{min-height:100svh;padding:40px 16px;display:flex;align-items:center;justify-content:center}
+.panel{padding:0 16px 22svh;display:flex;justify-content:center}
+.panel:first-child .card{opacity:1;transform:none}
 .card{width:100%;max-width:460px;background:var(--card);text-align:center;padding:48px 22px 56px;
   -webkit-backdrop-filter:blur(1px);backdrop-filter:blur(1px)}
 .reveal{opacity:0;transform:translateY(30px);transition:opacity 1.1s ease,transform 1.1s ease}

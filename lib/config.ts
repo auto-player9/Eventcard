@@ -17,7 +17,8 @@ export const EVENT = {
     { name: "BLOM Bank", lines: ["LB89 0014 0000 2902 3492 6415 8813"] },
   ],
 
-  // Background photos shown while scrolling (files in /public/images)
+  // Background photos — they change automatically every `slideMs` milliseconds
+  slideMs: 1500,
   backgrounds: [
     "/images/close.jpg",
     "/images/golden.jpg",

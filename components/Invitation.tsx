@@ -56,24 +56,21 @@ export default function Invitation({ guests, invite }: { guests: string[]; invit
     return () => document.body.classList.remove("lock");
   }, [started]);
 
-  /* background switcher + reveal */
+  /* background slideshow: change photo every 1.5s */
   useEffect(() => {
-    const blocks = [...document.querySelectorAll<HTMLElement>("[data-bg]")];
-    const pick = () => {
-      const mid = innerHeight / 2;
-      for (const b of blocks) {
-        const r = b.getBoundingClientRect();
-        if (r.top <= mid && r.bottom >= mid) return setBg(Number(b.dataset.bg));
-      }
-    };
-    addEventListener("scroll", pick, { passive: true });
-    pick();
+    const n = EVENT.backgrounds.length;
+    const id = setInterval(() => setBg((i) => (i + 1) % n), EVENT.slideMs);
+    return () => clearInterval(id);
+  }, []);
+
+  /* reveal cards on scroll */
+  useEffect(() => {
     const io = new IntersectionObserver(
       (es) => es.forEach((e) => e.isIntersecting && e.target.classList.add("in")),
-      { threshold: 0.2 }
+      { threshold: 0.15 }
     );
     document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
-    return () => { removeEventListener("scroll", pick); io.disconnect(); };
+    return () => io.disconnect();
   }, []);
 
   /* music */
@@ -156,12 +153,9 @@ export default function Invitation({ guests, invite }: { guests: string[]; invit
       </div>
 
       <main className="inv-main">
-        <div className="spacer" data-bg="0" />
-        <div className="spacer" data-bg="1" />
-        <div className="spacer" data-bg="2" />
 
         {/* invitation */}
-        <section className="panel" data-bg="3">
+        <section className="panel">
           <div className="card reveal">
             <Monogram color="var(--gold)" />
             <svg className="ico" style={{ width: 26, height: 26, margin: "4px auto 0", color: "var(--ink)" }} viewBox="0 0 24 24" fill="currentColor" aria-hidden>
@@ -176,10 +170,9 @@ export default function Invitation({ guests, invite }: { guests: string[]; invit
           </div>
         </section>
 
-        <div className="spacer" data-bg="4" />
 
         {/* celebration */}
-        <section className="panel" data-bg="4">
+        <section className="panel">
           <div className="card reveal">
             <h2 className="title">{t("celebration")}</h2>
             <svg className="ico" viewBox="0 0 24 24" aria-hidden>
@@ -197,10 +190,9 @@ export default function Invitation({ guests, invite }: { guests: string[]; invit
           </div>
         </section>
 
-        <div className="spacer" data-bg="5" />
 
         {/* gifts */}
-        <section className="panel" data-bg="5">
+        <section className="panel">
           <div className="card reveal">
             <h2 className="title">{t("gifts")}</h2>
             <p style={{ marginTop: 14 }} {...html("giftText")} />
