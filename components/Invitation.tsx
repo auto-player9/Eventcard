@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { EVENT, TEXT, type Lang, type TextKey } from "@/lib/config";
+import EstwareLogo from "@/components/EstwareLogo";
 
 type Row = { id: number; name: string; fixed: boolean; answer: "yes" | "no" | null };
 const KB = ["kbA", "kbB", "kbC", "kbD"]; // slow zoom/pan direction per photo
@@ -32,6 +33,8 @@ export default function Invitation({ guests, invite }: { guests: string[]; invit
   const [hp, setHp] = useState("");
   const [status, setStatus] = useState<"idle" | "sending" | "ok" | "err" | "need">("idle");
   const audio = useRef<HTMLAudioElement>(null);
+  const coverRef = useRef<HTMLElement>(null);
+  const drift = useRef<HTMLDivElement>(null);
 
   const t = (k: TextKey) => TEXT[lang][k];
   const html = (k: TextKey) => ({ dangerouslySetInnerHTML: { __html: TEXT[lang][k] } });
@@ -72,10 +75,26 @@ export default function Invitation({ guests, invite }: { guests: string[]; invit
   useEffect(() => {
     const io = new IntersectionObserver(
       (es) => es.forEach((e) => e.isIntersecting && e.target.classList.add("in")),
-      { threshold: 0.15 }
+      { threshold: 0.12 }
     );
-    document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+    document.querySelectorAll(".reveal, .lion-watch").forEach((el) => io.observe(el));
     return () => io.disconnect();
+  }, []);
+
+  /* cover monogram drifts gently opposite the pointer (computers only) */
+  useEffect(() => {
+    const cover = coverRef.current, el = drift.current;
+    if (!cover || !el) return;
+    if (!matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const move = (e: PointerEvent) => {
+      const x = (e.clientX / innerWidth - 0.5) * 2, y = (e.clientY / innerHeight - 0.5) * 2;
+      el.style.transform = `translate(${-x * 10}px, ${-y * 7}px)`;
+    };
+    const leave = () => { el.style.transform = ""; };
+    cover.addEventListener("pointermove", move);
+    cover.addEventListener("pointerleave", leave);
+    return () => { cover.removeEventListener("pointermove", move); cover.removeEventListener("pointerleave", leave); };
   }, []);
 
   /* music */
@@ -139,14 +158,14 @@ export default function Invitation({ guests, invite }: { guests: string[]; invit
       </div>
 
       {/* ============ COVER ============ */}
-      <section id="cover" className={started ? "gone" : ""}>
+      <section id="cover" className={`${started ? "gone" : ""} ${loaded ? "ready" : ""}`} ref={coverRef}>
         <div className="ph" style={{ backgroundImage: `url(${EVENT.cover})` }} />
         <button className="lang" onClick={() => setLang(lang === "ar" ? "en" : "ar")}>{t("lang")}</button>
         <div className="in">
-          <Monogram color="#fff" />
-          <div className="cover-names" dir="ltr">{EVENT.namesEn}</div>
-          <div className="cover-date" dir="ltr">{EVENT.dateShort}</div>
-          <button className="start" onClick={start}>{t("start")}</button>
+          <div className="rise r1"><div className="drift" ref={drift}><Monogram color="#fff" /></div></div>
+          <div className="cover-names rise r2" dir="ltr">{EVENT.namesEn}</div>
+          <div className="cover-date rise r3" dir="ltr">{EVENT.dateShort}</div>
+          <button className="start rise r4" onClick={start}>{t("start")}</button>
         </div>
       </section>
 
@@ -265,10 +284,9 @@ export default function Invitation({ guests, invite }: { guests: string[]; invit
         <footer className="foot">
           <div className="pic" style={{ backgroundImage: `url(${EVENT.footer})` }} />
           <div className="always" {...html("always")} />
-          <div className="powered">
+          <div className="powered lion-watch">
             <span>Powered by</span>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/estware-logo.svg" alt="Estware" width={123} height={34} />
+            <EstwareLogo className="ew-logo" />
           </div>
         </footer>
       </main>
